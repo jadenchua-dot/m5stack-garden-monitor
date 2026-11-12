@@ -31,7 +31,7 @@ The scan (`firmware/i2c_scan`) also lists 0x10, 0x68 and 0x75. These sit on the 
 |---|---|---|---|
 | Earth | Analog voltage on G36 | Raw 0 to 4095 | Dry in air: 4095. In water: about 2020 (hovers 2010 to 2030). Damp soil: TODO. Provisional dry threshold: raw 3300, about 38% of the dry-to-water range (a guess, to tune in real soil) |
 | ENV II | I2C | Temperature, humidity, pressure | None |
-| ToF | I2C | Distance in mm to water surface | Empty tank: TODO. Full tank: TODO |
+| ToF | I2C | Distance in mm to water surface | Using guesses of 50 mm full and 200 mm empty until the tank is built |
 
 ## Data flow
 
@@ -80,6 +80,7 @@ The motor never connects to a Fire pin directly, the motor supply is separate fr
 | 2026-11-13 | earth_calibration: Earth unit on Port B | Dry 4095, water about 2020 |
 | 2026-11-13 | servo_test: servo sweep on Port C | Works |
 | 2026-11-13 | tof_test: ToF through the HUB on Port A | Works: distance changes with my hand, out of range shows when far |
+| 2026-11-13 | water_level_warning: ToF distance to tank level, red screen when low | Works |
 | 2026-11-13 | watering_logic: Earth unit on Port B, servo on Port C | Works: opens in air, stays shut in water, cooldown runs |
 
 ## Safety

@@ -63,7 +63,7 @@ Details and fixes for the problems I hit are in `docs/setup-windows.md`.
 - [x] Earth unit calibrated (dry and wet values)
 - [x] Servo sweep test works on Port C
 - [x] Watering logic with confirm reads and cooldown
-- [ ] ToF water level warning
+- [x] ToF water level warning
 - [ ] Lego frame, tank and valve arm built
 - [ ] WiFi logging to a dashboard
 
@@ -77,6 +77,8 @@ firmware/
   earth_calibration/   Earth unit raw readings
   servo_test/          servo sweep on Port C
   watering_logic/      Earth unit reading opens the servo valve, with cooldown
+  tof_test/            ToF distance readings
+  water_level_warning/ tank level percentage and LOW WATER screen
 docs/
   setup-windows.md     setup notes and fixes
   wiring.md            wiring notes

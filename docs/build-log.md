@@ -46,8 +46,11 @@ Short dated notes on each stage: what I did, what happened, what I fixed. Workin
 - Fix: move the arm so it clears the frame at both ends of the swing. I also made the servo move in 1 degree steps and added a reset reason print to Serial Monitor, to help diagnose any future resets.
 - Result: works. The valve opens with the sensor in air, stays shut with the sensor in water, and the cooldown counts down.
 
-## 2026-11-13: Stage 6, ToF water level (in progress)
+## 2026-11-13: Stage 6, ToF water level
 
 - Sketch: `firmware/tof_test`. Needs the Adafruit VL53L0X library. The first compile failed because the library was not installed and a stray "a" had been typed before the include line. Installing the library and deleting the "a" fixed it.
 - Result: distance readings follow my hand, and "Out of range" appears when nothing is close. "ToF ready" did not show because it prints once at start, before the Serial Monitor opened. It is not a fault.
-- Next sketch: `firmware/water_level_warning`, which turns the distance into a tank level percentage and shows a red LOW WATER warning. The full and empty distances are guesses until the tank is built.
+- Sketch: `firmware/water_level_warning`. Turns the distance into a tank level percentage and shows a red LOW WATER warning below 20%. It uses M5GFX for the screen instead of M5Unified, so the screen code does not touch the I2C bus the ToF uses. Works with no problems.
+- The full and empty distances (50 mm and 200 mm) are guesses until the tank is built.
+
+Next: one combined sketch, `firmware/garden_monitor`, that reads every sensor, shows them on screen and waters only when the tank has water.
