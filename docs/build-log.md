@@ -26,6 +26,8 @@ Short dated notes on each stage: what I did, what happened, what I fixed. Workin
 - Dry in air: 4095, the maximum the analog input can read.
 - Wet tissue wrapped around the prongs: the value falls steadily. It read 2270 when I noted it.
 - Problem: the first upload failed with "port is busy", and the Fire then boot-looped. Closing the Serial Monitor tab and replugging fixed it. Details in `setup-windows.md`, Problem 5.
-- Still to do: reading with the prongs in water, and in damp soil.
+- Prongs in a cup of water, up to the line on the board: the value hovers around 2010 to 2030, so about 2020.
+- Calibration so far: dry 4095, water about 2020. The wet tissue reading (2270) sits between the two, as expected.
+- Still to do: a reading in damp soil, to set the watering threshold.
 
-Next: finish the Earth unit calibration (dry and wet values).
+Next: damp soil reading, then build the pump switch.

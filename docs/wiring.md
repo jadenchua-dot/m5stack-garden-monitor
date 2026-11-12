@@ -31,7 +31,7 @@ The scan (`firmware/i2c_scan`) also lists 0x10, 0x68 and 0x75. These sit on the 
 
 | Unit | Output | Reading | Calibration |
 |---|---|---|---|
-| Earth | Analog voltage on G36 | Raw 0 to 4095 | Dry in air: TODO. In water: TODO |
+| Earth | Analog voltage on G36 | Raw 0 to 4095 | Dry in air: 4095. In water: about 2020 (hovers 2010 to 2030). Damp soil: TODO |
 | ENV II | I2C | Temperature, humidity, pressure | None |
 | ToF | I2C | Distance in mm to water surface | Empty tank: TODO. Full tank: TODO |
 

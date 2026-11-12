@@ -62,7 +62,7 @@ Details and fixes for the problems I hit are in `docs/setup-windows.md`.
 - [x] `hello_fire` test sketch uploaded (screen and buttons)
 - [x] I2C scan on Port A finds the ENV II and ToF units
 - [x] ENV II readings in Serial Monitor (temperature, humidity, pressure)
-- [ ] Earth unit calibrated (dry and wet values)
+- [x] Earth unit calibrated (dry and wet values)
 - [ ] Pump switch built and tested without the Fire attached
 - [ ] Watering logic with confirm reads and cooldown
 - [ ] ToF water level warning
