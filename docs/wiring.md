@@ -79,6 +79,7 @@ The motor never connects to a Fire pin directly, the motor supply is separate fr
 | 2026-11-13 | env_ii_test: ENV II through the HUB on Port A | Works: 23.7 C, 57.6 %, 1007.5 hPa |
 | 2026-11-13 | earth_calibration: Earth unit on Port B | Dry 4095, water about 2020 |
 | 2026-11-13 | servo_test: servo sweep on Port C | Works |
+| 2026-11-13 | tof_test: ToF through the HUB on Port A | Works: distance changes with my hand, out of range shows when far |
 | 2026-11-13 | watering_logic: Earth unit on Port B, servo on Port C | Works: opens in air, stays shut in water, cooldown runs |
 
 ## Safety
