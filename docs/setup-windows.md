@@ -48,6 +48,18 @@ Cause: I clicked the Debug button (the third icon, with the bug) instead of Uplo
 
 Fix: close the gdb-server tab and click Upload, the right arrow (or press Ctrl + U).
 
+### Problem 5: Upload fails with "Could not open COM5, the port is busy", then a boot loop
+
+Error text: `A fatal error occurred: Could not open COM5, the port is busy or doesn't exist` with `PermissionError(13, 'Access is denied')`, and a pop-up saying `Serial port busy`.
+
+After I unplugged and replugged the Fire, Serial Monitor showed the same lines over and over: `rst:0x10 (RTCWDT_RTC_RESET),boot:0x17 (SPI_FAST_FLASH_BOOT)` and `flash read err, 1000`. The Fire was restarting in a loop.
+
+Likely cause: the Serial Monitor tab was still holding COM5 open from the previous test, which blocked the upload.
+
+Fix: close the Serial Monitor tab (the X next to its name), unplug the Fire and plug it back in, then upload again. The upload worked and the sketch ran.
+
+If that doesn't work: quit Arduino IDE completely and reopen it, then try Tools, Erase All Flash Before Sketch Upload set to Enabled for one upload (switch it back to Disabled afterwards).
+
 ## Problems I hit earlier on a Mac
 
 - "no space left on device" during the board package install. The M5Stack package is several GB once unpacked, so the Mac's disk needs free space.
@@ -58,4 +70,5 @@ Fix: close the gdb-server tab and click Upload, the right arrow (or press Ctrl +
 - Use a data USB cable. Some cables only charge.
 - Check Device Manager before blaming the IDE. If the Fire is under Other devices, it needs a driver.
 - Upload, never Debug.
+- Close the Serial Monitor tab before uploading a new sketch.
 - Install on a drive formatted as NTFS (Windows) or APFS (Mac).
