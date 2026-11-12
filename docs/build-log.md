@@ -55,4 +55,10 @@ Short dated notes on each stage: what I did, what happened, what I fixed. Workin
 
 - Problem 6 in `setup-windows.md`: a bigger sketch uploaded from a new window gave a partition table error and a black screen. Slower upload speed, DIO flash mode and a replug fixed it.
 
-Next: one combined sketch, `firmware/garden_monitor`, that reads every sensor, shows them on screen and waters only when the tank has water.
+## 2026-11-13: Stage 7, everything in one sketch
+
+- Sketch: `firmware/garden_monitor`. Reads the Earth unit, ENV II and ToF, shows them on the screen, and opens the servo valve when the soil stays dry. It skips watering when the tank is low or the air is above 90% humidity. Works with all parts plugged in.
+- Problem: the screen blinks when the servo moves. The servo draws a burst of current and the 5 V supply sags. The Fire keeps running.
+- Fix: TODO, to be filled in once I note which fix I used.
+
+Next: build the Lego tank and valve arm, then WiFi logging.

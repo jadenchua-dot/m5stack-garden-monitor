@@ -80,6 +80,7 @@ The motor never connects to a Fire pin directly, the motor supply is separate fr
 | 2026-11-13 | earth_calibration: Earth unit on Port B | Dry 4095, water about 2020 |
 | 2026-11-13 | servo_test: servo sweep on Port C | Works |
 | 2026-11-13 | tof_test: ToF through the HUB on Port A | Works: distance changes with my hand, out of range shows when far |
+| 2026-11-13 | garden_monitor: Earth, ENV II, ToF, servo and screen together | Works. The screen blinked when the servo moved (supply dip), see the build log, Stage 7 |
 | 2026-11-13 | water_level_warning: ToF distance to tank level, red screen when low | Works |
 | 2026-11-13 | watering_logic: Earth unit on Port B, servo on Port C | Works: opens in air, stays shut in water, cooldown runs |
 

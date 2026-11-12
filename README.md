@@ -64,6 +64,7 @@ Details and fixes for the problems I hit are in `docs/setup-windows.md`.
 - [x] Servo sweep test works on Port C
 - [x] Watering logic with confirm reads and cooldown
 - [x] ToF water level warning
+- [x] All parts in one sketch (`garden_monitor`): soil, air, tank level, servo valve and screen
 - [ ] Lego frame, tank and valve arm built
 - [ ] WiFi logging to a dashboard
 
@@ -79,6 +80,7 @@ firmware/
   watering_logic/      Earth unit reading opens the servo valve, with cooldown
   tof_test/            ToF distance readings
   water_level_warning/ tank level percentage and LOW WATER screen
+  garden_monitor/      all parts together, with tank-low and humid-air skips
 docs/
   setup-windows.md     setup notes and fixes
   wiring.md            wiring notes
