@@ -38,4 +38,12 @@ Short dated notes on each stage: what I did, what happened, what I fixed. Workin
 - Sketch: `firmware/servo_test`. The servo sweeps between two angles every 1.5 seconds. Works, with the servo signal on G17 (Port C).
 - Repo updated to match: README, wiring notes and the data flow diagram now show the servo.
 
-Next: watering logic that opens the valve when the soil stays dry, with confirm reads and a cooldown.
+## 2026-11-13: Stage 5, watering logic
+
+- Sketch: `firmware/watering_logic`. The Earth unit is read once a second. Five dry readings in a row (above raw 3300) open the servo valve for 5 seconds, then a 60 second cooldown blocks the next cycle. Button A forces a test cycle. The test times are short on purpose. A real plot needs a cooldown of 30 minutes or more.
+- Problem: the Fire shut off after a cycle and then repeated the cycle, so the countdown never finished. A reset wipes the program's memory, so it counted dry reads again and reopened the valve.
+- Cause: the servo arm was pushing against the Lego frame. A stalled servo draws far more current, which dropped the power to the Fire.
+- Fix: move the arm so it clears the frame at both ends of the swing. I also made the servo move in 1 degree steps and added a reset reason print to Serial Monitor, to help diagnose any future resets.
+- Result: works. The valve opens with the sensor in air, stays shut with the sensor in water, and the cooldown counts down.
+
+Next: ToF water level warning (stage 6).

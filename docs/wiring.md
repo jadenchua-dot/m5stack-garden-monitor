@@ -52,6 +52,7 @@ Notes:
 - The servo sweep test (`firmware/servo_test`) moves the servo between two angles every 1.5 seconds.
 - If the Fire resets when the servo moves, use a separate 5 V supply for the servo and join its ground to the Fire's GND.
 - The servo swings only between about 20 and 100 degrees in the test, to avoid straining the end stops.
+- Keep the arm clear of the Lego frame at both ends of the swing. A servo pushing against the frame draws far more current and can reset the Fire (see the build log, Stage 5).
 - TODO: Lego valve arm and tank mount, with a photo saved as `docs/images/valve.jpg`.
 
 ## Optional: pump instead of servo (not built)
@@ -78,6 +79,7 @@ The motor never connects to a Fire pin directly, the motor supply is separate fr
 | 2026-11-13 | env_ii_test: ENV II through the HUB on Port A | Works: 23.7 C, 57.6 %, 1007.5 hPa |
 | 2026-11-13 | earth_calibration: Earth unit on Port B | Dry 4095, water about 2020 |
 | 2026-11-13 | servo_test: servo sweep on Port C | Works |
+| 2026-11-13 | watering_logic: Earth unit on Port B, servo on Port C | Works: opens in air, stays shut in water, cooldown runs |
 
 ## Safety
 

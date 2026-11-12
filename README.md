@@ -62,7 +62,7 @@ Details and fixes for the problems I hit are in `docs/setup-windows.md`.
 - [x] ENV II readings in Serial Monitor (temperature, humidity, pressure)
 - [x] Earth unit calibrated (dry and wet values)
 - [x] Servo sweep test works on Port C
-- [ ] Watering logic with confirm reads and cooldown
+- [x] Watering logic with confirm reads and cooldown
 - [ ] ToF water level warning
 - [ ] Lego frame, tank and valve arm built
 - [ ] WiFi logging to a dashboard
@@ -76,6 +76,7 @@ firmware/
   env_ii_test/         ENV II temperature, humidity and pressure
   earth_calibration/   Earth unit raw readings
   servo_test/          servo sweep on Port C
+  watering_logic/      Earth unit reading opens the servo valve, with cooldown
 docs/
   setup-windows.md     setup notes and fixes
   wiring.md            wiring notes
