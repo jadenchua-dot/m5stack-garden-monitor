@@ -37,12 +37,8 @@ Addresses are the usual ones for these chips. Run an I2C scanner sketch to confi
 
 ## Data flow
 
-```
-Earth unit ---> G36 --\
-ENV II ------> I2C ----+--> Fire (ESP32) --> screen, serial, later WiFi
-ToF ---------> I2C ---/            |
-                                   +--> G17 --> 1 kΩ --> 2N3904 --> pump
-```
+<img width="1650" height="780" alt="data-flow" src="https://github.com/user-attachments/assets/ff8d21d9-1171-45c5-8c9c-a5306338c45d" />
+
 
 ## Pump switch circuit
 
