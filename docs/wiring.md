@@ -16,7 +16,7 @@ TODO: add a photo of the whole setup, saved as `docs/images/overview.jpg`.
 | Port B | Black | G26, G36 | Earth unit, analog output on G36 | TODO |
 | Port C | Blue | G16, G17 | Cut Grove cable to breadboard, pump switch signal on G17 | TODO |
 
-Pin numbers follow the standard Fire pinout. Confirm them against M5Stack's Fire documentation, and confirm the Port C signal wire colour with a blink test (LED and resistor between the wire and GND, sketch toggling G17).
+Pin numbers and Grove wire colours come from M5Stack's Fire documentation (docs.m5stack.com/en/core/Fire). Black is GND and red is 5V on every port. The signal wires are: Port A yellow G21 and white G22, Port B yellow G26 and white G36, Port C yellow G17 and white G16. Not yet confirmed on my own hardware. A blink test on G17 (LED and resistor between the yellow wire and GND) will confirm it.
 
 ## I2C devices
 
