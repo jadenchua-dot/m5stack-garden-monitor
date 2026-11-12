@@ -29,11 +29,22 @@ int dryCount = 0;
 unsigned long stateStart = 0;
 unsigned long lastRead = 0;
 int raw = 0;
+int currentDeg = CLOSED_DEG;
 
 void setServoAngle(int deg) {
   int us = map(deg, 0, 180, 600, 2300);
   uint32_t duty = (uint32_t)us * 65536UL / 20000UL;
   ledcWrite(SERVO_PIN, duty);
+}
+
+// Moves the servo in small steps. A sudden jump draws a spike of current,
+// which can pull the 5 V rail down and reset the Fire.
+void moveServoTo(int target) {
+  while (currentDeg != target) {
+    currentDeg += (target > currentDeg) ? 1 : -1;
+    setServoAngle(currentDeg);
+    delay(12);
+  }
 }
 
 int readEarth() {
@@ -43,7 +54,7 @@ int readEarth() {
 }
 
 void startWatering() {
-  setServoAngle(OPEN_DEG);
+  moveServoTo(OPEN_DEG);
   state = WATERING;
   stateStart = millis();
   dryCount = 0;
@@ -71,6 +82,9 @@ void setup() {
   Serial.begin(115200);
   ledcAttach(SERVO_PIN, 50, 16);
   setServoAngle(CLOSED_DEG);
+
+  // Why did the Fire last start? Power loss and brownout mean a supply problem.
+  Serial.printf("Reset reason code: %d (1=power on, 15=brownout)\n", (int)esp_reset_reason());
 }
 
 void loop() {
@@ -88,7 +102,7 @@ void loop() {
       else dryCount = 0;
       if (dryCount >= CONFIRM_READS) startWatering();
     } else if (state == WATERING && now - stateStart >= OPEN_MS) {
-      setServoAngle(CLOSED_DEG);
+      moveServoTo(CLOSED_DEG);
       state = COOLDOWN;
       stateStart = now;
       Serial.println("Valve CLOSED, cooldown");
