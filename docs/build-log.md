@@ -20,4 +20,12 @@ Short dated notes on each stage: what I did, what happened, what I fixed. Workin
 - Result in Serial Monitor at 115200 baud: 23.7 C, 57.6 % humidity, 1007.5 hPa, steady from reading to reading. No problems.
 - The readings print to Serial Monitor only. Showing them on the Fire's screen is a later step.
 
-Next: calibrate the Earth unit (dry and wet values).
+## 2026-11-13: Stage 3, Earth unit (in progress)
+
+- Sketch: `firmware/earth_calibration`. The Earth unit is on Port B and the raw value shows on the Fire's screen.
+- Dry in air: 4095, the maximum the analog input can read.
+- Wet tissue wrapped around the prongs: the value falls steadily. It read 2270 when I noted it.
+- Problem: the first upload failed with "port is busy", and the Fire then boot-looped. Closing the Serial Monitor tab and replugging fixed it. Details in `setup-windows.md`, Problem 5.
+- Still to do: reading with the prongs in water, and in damp soil.
+
+Next: finish the Earth unit calibration (dry and wet values).
