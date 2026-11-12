@@ -60,6 +60,18 @@ Fix: close the Serial Monitor tab (the X next to its name), unplug the Fire and 
 
 If that doesn't work: quit Arduino IDE completely and reopen it, then try Tools, Erase All Flash Before Sketch Upload set to Enabled for one upload (switch it back to Disabled afterwards).
 
+### Problem 6: Black screen after upload, with "invalid magic number 0x5555" and "load partition table error!"
+
+Serial Monitor showed `E (56) qio_mode: Failed to set QIE bit, not enabling QIO mode`, then `flash_parts: partition 0 invalid magic number 0x5555`, `boot: Failed to verify partition table` and `boot: load partition table error!`. The Fire's screen stayed black. It first happened when I uploaded a bigger sketch from a new Arduino IDE window, which started with no board selected.
+
+Things that did not fix it: closing Serial Monitor, and wiping the flash with Erase All Flash Before Sketch Upload.
+
+What fixed it: I changed Tools, Upload Speed from 1500000 to 115200, Flash Mode from QIO to DIO, and Flash Frequency from 80MHz to 40MHz, then uploaded a tiny Hello Fire sketch. The Serial Monitor startup log then showed `mode:DIO` and no partition error. The screen stayed black until I unplugged the USB cable and plugged it back in, and then it came on.
+
+I do not know which of the three settings did the work, since I changed them together. A very fast upload can scramble the write, so Upload Speed is my main suspect.
+
+Lessons: a new Arduino IDE window starts with no board selected (the top bar says "Select Board"), so pick M5Fire on COM5 first. After any upload, if the screen is black, unplug and replug the Fire before assuming the upload failed.
+
 ## Problems I hit earlier on a Mac
 
 - "no space left on device" during the board package install. The M5Stack package is several GB once unpacked, so the Mac's disk needs free space.

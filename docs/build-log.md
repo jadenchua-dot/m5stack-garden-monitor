@@ -53,4 +53,6 @@ Short dated notes on each stage: what I did, what happened, what I fixed. Workin
 - Sketch: `firmware/water_level_warning`. Turns the distance into a tank level percentage and shows a red LOW WATER warning below 20%. It uses M5GFX for the screen instead of M5Unified, so the screen code does not touch the I2C bus the ToF uses. Works with no problems.
 - The full and empty distances (50 mm and 200 mm) are guesses until the tank is built.
 
+- Problem 6 in `setup-windows.md`: a bigger sketch uploaded from a new window gave a partition table error and a black screen. Slower upload speed, DIO flash mode and a replug fixed it.
+
 Next: one combined sketch, `firmware/garden_monitor`, that reads every sensor, shows them on screen and waters only when the tank has water.
