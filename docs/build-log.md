@@ -30,4 +30,6 @@ Short dated notes on each stage: what I did, what happened, what I fixed. Workin
 - Calibration so far: dry 4095, water about 2020. The wet tissue reading (2270) sits between the two, as expected.
 - Still to do: a reading in damp soil, to set the watering threshold.
 
-Next: damp soil reading, then build the pump switch.
+- No soil on hand, so I set a provisional dry threshold at raw 3300 (about 38% of the dry-to-water range). The pump waters when the reading is above it. It is a guess, based on soil holding less water than a cup, and I will tune it in real soil. The pump cooldown limits the damage if it is off.
+
+Next: build the pump switch (stage 4).
