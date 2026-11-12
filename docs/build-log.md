@@ -32,4 +32,10 @@ Short dated notes on each stage: what I did, what happened, what I fixed. Workin
 
 - No soil on hand, so I set a provisional dry threshold at raw 3300 (about 38% of the dry-to-water range). The pump waters when the reading is above it. It is a guess, based on soil holding less water than a cup, and I will tune it in real soil. The pump cooldown limits the damage if it is off.
 
-Next: build the pump switch (stage 4).
+## 2026-11-13: Stage 4, servo valve
+
+- Decision: use the servo from the kit as the water valve, instead of a DC motor with a transistor switch. The servo has fewer parts, and the motor's voltage was unknown. The transistor pump design stays in `wiring.md` as an optional upgrade.
+- Sketch: `firmware/servo_test`. The servo sweeps between two angles every 1.5 seconds. Works, with the servo signal on G17 (Port C).
+- Repo updated to match: README, wiring notes and the data flow diagram now show the servo.
+
+Next: watering logic that opens the valve when the soil stays dry, with confirm reads and a cooldown.
