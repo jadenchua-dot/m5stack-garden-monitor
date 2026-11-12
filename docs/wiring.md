@@ -22,10 +22,10 @@ Pin numbers follow the standard Fire pinout. Confirm them against M5Stack's Fire
 
 | Unit | Typical address | Verified with scan |
 |---|---|---|
-| ENV II (SHT30 and BMP280) | 0x44 and 0x76 | TODO |
-| ToF | 0x29 | TODO |
+| ENV II (SHT30 and BMP280) | 0x44 and 0x76 | Yes, both found (2026-11-12) |
+| ToF | 0x29 | Yes, found (2026-11-12) |
 
-Addresses are the usual ones for these chips. Run an I2C scanner sketch to confirm what the Fire actually sees.
+The scan (`firmware/i2c_scan`) also lists 0x10, 0x68 and 0x75. These sit on the Fire's own internal bus, not on the external units.
 
 ## Sensor behaviour
 
