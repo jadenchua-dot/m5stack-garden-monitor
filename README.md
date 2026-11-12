@@ -1,6 +1,6 @@
 # M5Stack Garden Monitor
 
-A self-watering garden monitor for community and urban farming, built on the M5Stack Fire (ESP32). It reads soil moisture, air conditions and water tank level, then runs a small pump only when the plants need it.
+A self-watering garden monitor for community and urban farming, built on the M5Stack Fire (ESP32). It reads soil moisture, air conditions and water tank level, then opens a servo-driven valve only when the plants need it.
 
 ## Problem
 
@@ -12,8 +12,8 @@ A low-cost node that takes the guesswork out of watering:
 
 1. Soil moisture sensors measure how dry each plot is.
 2. An environment sensor reads air temperature, humidity and pressure, so the system can skip a cycle when the air is already humid.
-3. A distance sensor above the water tank measures the water level and warns before the pump runs dry.
-4. A pump switches on for a short, fixed time when the soil stays dry across several readings, then waits through a cooldown before it can run again.
+3. A distance sensor above the water tank measures the water level and warns before the tank runs empty.
+4. A servo releases a soft tube on a gravity-fed tank for a short, fixed time when the soil stays dry across several readings, then pinches it shut and waits through a cooldown before it can open again.
 5. The Fire's screen shows live readings, and status lights show plot health at a glance.
 
 ## Hardware
@@ -24,14 +24,14 @@ A low-cost node that takes the guesswork out of watering:
 | Earth unit | Soil moisture |
 | ENV II unit | Air temperature, humidity, pressure |
 | ToF unit | Water tank level |
+| Analog servo | Opens and closes the water valve |
 | RGB units | Status lights |
 | RFID unit | Identify a plot by tag (stretch goal) |
 | Light unit | Sunlight logging (stretch goal) |
 | HUB / Pb.HUB units | Share ports between units |
-| DC motor or small pump | Waters the plot |
-| 2N3904 transistor, 1 kΩ resistor, 1N4007 diode | Switch for the motor |
-| Separate battery pack | Motor power |
-| Lego blocks | Planter frame and tank mount |
+| Lego blocks | Planter frame, tank mount and valve arm |
+
+An optional pump version (DC motor or small pump, 2N3904 transistor, 1 kΩ resistor, 1N4007 diode and a separate battery pack) is described in `docs/wiring.md`. It is not used in the current build.
 
 ## Wiring plan
 
@@ -39,11 +39,9 @@ A low-cost node that takes the guesswork out of watering:
 |---|---|
 | Port A (red, I2C) | HUB unit with ENV II and ToF |
 | Port B (black) | Earth unit, analog output on GPIO36 |
-| Port C (blue) | Pump switch signal on GPIO17, through a cut Grove cable to the breadboard |
+| Port C (blue) | Servo, signal on GPIO17 |
 
-The motor never connects to a Fire pin directly. GPIO17 drives the base of the 2N3904 through the 1 kΩ resistor. The motor runs from its own supply, the diode sits across the motor terminals with the stripe toward the positive side, and the motor supply ground joins the Fire's GND.
-
-Pin assignments follow the standard Fire pinout and still need checking against M5Stack's Fire documentation and a blink test before the pump is powered.
+The servo sweep test works on Port C. If the Fire ever resets when the servo moves, give the servo its own 5 V supply and join its ground to the Fire's GND. Pin numbers and wire colours come from M5Stack's Fire documentation, and the details are in `docs/wiring.md`.
 
 ## Setup (Windows)
 
@@ -63,22 +61,26 @@ Details and fixes for the problems I hit are in `docs/setup-windows.md`.
 - [x] I2C scan on Port A finds the ENV II and ToF units
 - [x] ENV II readings in Serial Monitor (temperature, humidity, pressure)
 - [x] Earth unit calibrated (dry and wet values)
-- [ ] Pump switch built and tested without the Fire attached
+- [x] Servo sweep test works on Port C
 - [ ] Watering logic with confirm reads and cooldown
 - [ ] ToF water level warning
+- [ ] Lego frame, tank and valve arm built
 - [ ] WiFi logging to a dashboard
-- [ ] Lego frame built
 
 ## Repository layout
 
 ```
 firmware/
-  hello_fire/        first test sketch
-  i2c_scan/          lists I2C devices on Port A
-  env_ii_test/       ENV II temperature, humidity and pressure
+  hello_fire/          first test sketch
+  i2c_scan/            lists I2C devices on Port A
+  env_ii_test/         ENV II temperature, humidity and pressure
+  earth_calibration/   Earth unit raw readings
+  servo_test/          servo sweep on Port C
 docs/
-  setup-windows.md   setup notes and fixes
-  wiring.md          wiring notes
+  setup-windows.md     setup notes and fixes
+  wiring.md            wiring notes
+  build-log.md         dated notes on each stage
+  images/              diagrams
 ```
 
 ## Notes

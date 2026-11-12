@@ -6,17 +6,15 @@ How the garden monitor is connected. Anything marked TODO is not built or verifi
 
 TODO: add a photo of the whole setup, saved as `docs/images/overview.jpg`.
 
-![Overview of the setup](images/overview.jpg)
-
 ## Fire port map
 
 | Port | Colour | Pins | Connected to | Status |
 |---|---|---|---|---|
-| Port A | Red | G21 (SDA), G22 (SCL) | HUB unit with ENV II and ToF | TODO |
-| Port B | Black | G26, G36 | Earth unit, analog output on G36 | TODO |
-| Port C | Blue | G16, G17 | Cut Grove cable to breadboard, pump switch signal on G17 | TODO |
+| Port A | Red | G21 (SDA), G22 (SCL) | HUB unit with ENV II and ToF | Works (I2C scan and ENV II readings) |
+| Port B | Black | G26, G36 | Earth unit, analog output on G36 | Works (raw readings on the screen) |
+| Port C | Blue | G17, G16 | Servo, signal on G17 | Works (sweep test, 2026-11-13) |
 
-Pin numbers and Grove wire colours come from M5Stack's Fire documentation (docs.m5stack.com/en/core/Fire). Black is GND and red is 5V on every port. The signal wires are: Port A yellow G21 and white G22, Port B yellow G26 and white G36, Port C yellow G17 and white G16. Not yet confirmed on my own hardware. A blink test on G17 (LED and resistor between the yellow wire and GND) will confirm it.
+Pin numbers and Grove wire colours come from M5Stack's Fire documentation (docs.m5stack.com/en/core/Fire). Black is GND and red is 5V on every port. The signal wires are: Port A yellow G21 and white G22, Port B yellow G26 and white G36, Port C yellow G17 and white G16. The servo test confirms the G17 signal on Port C.
 
 ## I2C devices
 
@@ -37,12 +35,28 @@ The scan (`firmware/i2c_scan`) also lists 0x10, 0x68 and 0x75. These sit on the 
 
 ## Data flow
 
-<img width="1650" height="780" alt="data-flow" src="https://github.com/user-attachments/assets/ff8d21d9-1171-45c5-8c9c-a5306338c45d" />
+![Data flow diagram](images/data-flow.png)
 
+## Servo valve
 
-## Pump switch circuit
+The servo opens and closes a soft tube on a gravity-fed water tank. It is controlled from Port C.
 
-Parts: 2N3904, 1 kΩ resistor, 1N4007 diode, DC motor or small pump, separate battery pack.
+| Servo wire | Connects to |
+|---|---|
+| Brown (ground) | GND, black Grove wire |
+| Red | 5V, red Grove wire |
+| Orange (signal) | G17, yellow Grove wire |
+
+Notes:
+
+- The servo sweep test (`firmware/servo_test`) moves the servo between two angles every 1.5 seconds.
+- If the Fire resets when the servo moves, use a separate 5 V supply for the servo and join its ground to the Fire's GND.
+- The servo swings only between about 20 and 100 degrees in the test, to avoid straining the end stops.
+- TODO: Lego valve arm and tank mount, with a photo saved as `docs/images/valve.jpg`.
+
+## Optional: pump instead of servo (not built)
+
+A DC pump needs a transistor switch, because a Fire pin cannot supply the current. Parts: 2N3904, 1 kΩ resistor, 1N4007 diode, DC motor or small pump, separate battery pack.
 
 | From | To |
 |---|---|
@@ -54,16 +68,7 @@ Parts: 2N3904, 1 kΩ resistor, 1N4007 diode, DC motor or small pump, separate ba
 | Fire GND (Port C black wire) | Common GND rail |
 | Battery pack negative | Common GND rail |
 
-Notes:
-
-- The motor never connects to a Fire pin directly.
-- The motor supply is separate from the Fire's USB power.
-- Motor voltage and current: TODO (check the label).
-- 2N3904 limit is about 200 mA. Temperature check after 10 seconds of running: TODO.
-
-TODO: photo of the breadboard, saved as `docs/images/breadboard.jpg`.
-
-![Breadboard pump switch](images/breadboard.jpg)
+The motor never connects to a Fire pin directly, the motor supply is separate from the Fire's USB power, and the 2N3904 is rated for about 200 mA.
 
 ## Test log
 
@@ -71,12 +76,14 @@ TODO: photo of the breadboard, saved as `docs/images/breadboard.jpg`.
 |---|---|---|
 | 2026-11-12 | hello_fire sketch: screen and buttons | TODO |
 | 2026-11-13 | env_ii_test: ENV II through the HUB on Port A | Works: 23.7 C, 57.6 %, 1007.5 hPa |
+| 2026-11-13 | earth_calibration: Earth unit on Port B | Dry 4095, water about 2020 |
+| 2026-11-13 | servo_test: servo sweep on Port C | Works |
 
 ## Safety
 
 - Low-voltage DC only. No AC motor in this project.
-- Connect the motor supply last, after checking every other wire.
-- Keep water and electronics apart. The Fire, breadboard and battery pack sit above and away from the plot and tank.
+- Keep water and electronics apart. The Fire, wiring and servo sit above and away from the plot and tank.
+- For the optional pump, connect the motor supply last, after checking every other wire.
 
 ## Lessons
 
