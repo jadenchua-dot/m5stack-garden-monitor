@@ -59,6 +59,6 @@ Short dated notes on each stage: what I did, what happened, what I fixed. Workin
 
 - Sketch: `firmware/garden_monitor`. Reads the Earth unit, ENV II and ToF, shows them on the screen, and opens the servo valve when the soil stays dry. It skips watering when the tank is low or the air is above 90% humidity. Works with all parts plugged in.
 - Problem: the screen blinks when the servo moves. The servo draws a burst of current and the 5 V supply sags. The Fire keeps running.
-- Fix: TODO, to be filled in once I note which fix I used.
+- Fix: unplugged the PC cable and ran the Fire from its built-in battery. The blink went away, so the laptop USB port was not supplying enough current. The battery is small, so for a longer run the Fire needs a wall charger (1A or more) plugged in, or a separate 5 V supply for the servo.
 
 Next: build the Lego tank and valve arm, then WiFi logging.
