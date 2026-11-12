@@ -70,6 +70,7 @@ TODO: photo of the breadboard, saved as `docs/images/breadboard.jpg`.
 | Date | What I tested | Result |
 |---|---|---|
 | 2026-11-12 | hello_fire sketch: screen and buttons | TODO |
+| 2026-11-13 | env_ii_test: ENV II through the HUB on Port A | Works: 23.7 C, 57.6 %, 1007.5 hPa |
 
 ## Safety
 
