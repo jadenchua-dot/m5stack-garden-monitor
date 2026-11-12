@@ -60,6 +60,7 @@ Details and fixes for the problems I hit are in `docs/setup-windows.md`.
 - [x] Arduino IDE and M5Stack board package installed
 - [x] USB driver installed, Fire detected on a COM port
 - [x] `hello_fire` test sketch uploaded (screen and buttons)
+- [x] I2C scan on Port A finds the ENV II and ToF units
 - [ ] ENV II readings on screen
 - [ ] Earth unit calibrated (dry and wet values)
 - [ ] Pump switch built and tested without the Fire attached
@@ -73,6 +74,7 @@ Details and fixes for the problems I hit are in `docs/setup-windows.md`.
 ```
 firmware/
   hello_fire/        first test sketch
+  i2c_scan/          lists I2C devices on Port A
 docs/
   setup-windows.md   setup notes and fixes
   wiring.md          wiring notes
