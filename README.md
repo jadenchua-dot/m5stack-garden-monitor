@@ -81,6 +81,7 @@ firmware/
   tof_test/            ToF distance readings
   water_level_warning/ tank level percentage and LOW WATER screen
   garden_monitor/      all parts together, with tank-low and humid-air skips
+  valve_tuning/        buttons A and C step the servo angle, to find shut and open
 docs/
   setup-windows.md     setup notes and fixes
   wiring.md            wiring notes
