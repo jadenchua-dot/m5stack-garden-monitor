@@ -22,7 +22,7 @@ A low-cost node that takes the guesswork out of watering:
 
 | Part | Role |
 |---|---|
-| M5Stack Fire (ESP32) | Controller, screen, buttons |
+| M5Stack Fire (ESP32) | Controller, screen, buttons, WiFi dashboard |
 | Earth unit | Soil moisture |
 | ENV II unit | Air temperature, humidity, pressure |
 | ToF unit | Water tank level |
@@ -69,6 +69,26 @@ Details and fixes for the problems I hit are in `docs/setup-windows.md`.
 - [x] All parts in one sketch (`garden_monitor`): soil, air, tank level, servo valve and screen
 - [x] Lego frame, tank and valve arm built (9 cm bottle, servo arm pinching the tube)
 - [x] Prototype demo recorded (video link at the top)
+- [x] WiFi dashboard: the Fire serves a live web page of the readings
+
+## WiFi dashboard
+
+The Fire joins your WiFi and runs a small web server, so you can watch the
+readings on a phone or laptop on the same network.
+
+1. In `firmware/garden_monitor_wifi`, fill in `WIFI_SSID` and `WIFI_PASS` with
+   your WiFi name and password. Use home WiFi or a phone hotspot; school and
+   office networks often block devices from reaching each other. Do not commit
+   your real password.
+2. Upload the sketch. When it connects, the Fire's screen shows its address,
+   like `http://192.168.1.42` (in cyan at the bottom).
+3. On a device on the same WiFi, type that address into a browser. The page
+   shows soil, air, water level and the valve state, and refreshes every 2
+   seconds.
+
+The page is served by the Fire itself; its HTML is embedded in the sketch, so
+there is nothing else to host. If WiFi does not connect in 15 seconds, the
+garden keeps running without the dashboard.
 
 ## How the demo stands in for soil
 
@@ -92,6 +112,7 @@ firmware/
   tof_test/            ToF distance readings
   water_level_warning/ tank level percentage and LOW WATER screen
   garden_monitor/      all parts together, with tank-low and humid-air skips
+  garden_monitor_wifi/ garden_monitor plus a live web dashboard over WiFi
   valve_tuning/        buttons A and C step the servo angle, to find shut and open
 docs/
   setup-windows.md     setup notes and fixes

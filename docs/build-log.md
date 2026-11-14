@@ -78,3 +78,10 @@ Short dated notes on each stage: what I did, what happened, what I fixed. Workin
 - Video: https://youtube.com/shorts/DR6Jm-IQAWk
 - No soil on hand, so the demo uses water to stand for wet-enough soil (valve stays shut) and air to stand for dry soil (valve opens). The README explains this.
 - Project wrapped up here.
+
+## 2026-11-14: Stage 10, WiFi dashboard
+
+- Sketch: `firmware/garden_monitor_wifi`. Same as `garden_monitor`, plus the Fire joins WiFi and runs a web server on port 80.
+- Open "/" and the Fire serves an HTML page. The page fetches "/data" (a small JSON of soil, air, water level, valve state) every 2 seconds and updates itself. The HTML is embedded in the sketch, so nothing else needs hosting.
+- The Fire's IP shows on its screen in cyan once connected. WiFi has a 15 second timeout, so the garden still runs if WiFi fails.
+- Credentials (WIFI_SSID, WIFI_PASS) are placeholders in the repo copy. Fill them in on the local Arduino copy only, and keep the real password off a public repo.
