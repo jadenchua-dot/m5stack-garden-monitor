@@ -75,4 +75,6 @@ Short dated notes on each stage: what I did, what happened, what I fixed. Workin
 - Final valve angles: 25 degrees closed (not watering), 130 degrees open (watering). The Fire runs `garden_monitor` and the full cycle works.
 - Recorded a video of the prototype working.
 
-Next: check the tank distances with real readings, test the Earth unit in real soil and tune the threshold, then add a photo and the video link to the README.
+- Video: https://youtube.com/shorts/DR6Jm-IQAWk
+- No soil on hand, so the demo uses water to stand for wet-enough soil (valve stays shut) and air to stand for dry soil (valve opens). The README explains this.
+- Project wrapped up here. Left as future work: tuning the threshold in real soil, measuring the real tank distances, and WiFi logging.

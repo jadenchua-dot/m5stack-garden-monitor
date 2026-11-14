@@ -1,10 +1,10 @@
 # Wiring notes
 
-How the garden monitor is connected. Anything marked TODO is not built or verified yet. Only mark a row as verified after testing it on the real hardware.
+How the garden monitor is connected. Every row marked as working was tested on the real hardware.
 
 ## Overview
 
-TODO: add a photo of the whole setup, saved as `docs/images/overview.jpg`.
+Video of the working prototype: https://youtube.com/shorts/DR6Jm-IQAWk
 
 ## Fire port map
 
@@ -29,7 +29,7 @@ The scan (`firmware/i2c_scan`) also lists 0x10, 0x68 and 0x75. These sit on the 
 
 | Unit | Output | Reading | Calibration |
 |---|---|---|---|
-| Earth | Analog voltage on G36 | Raw 0 to 4095 | Dry in air: 4095. In water: about 2020 (hovers 2010 to 2030). Damp soil: TODO. Provisional dry threshold: raw 3300, about 38% of the dry-to-water range (a guess, to tune in real soil) |
+| Earth | Analog voltage on G36 | Raw 0 to 4095 | Dry in air: 4095. In water: about 2020 (hovers 2010 to 2030). No soil on hand, so water stands for wet-enough soil and air stands for dry soil. Dry threshold: raw 3300, between the two. It would need tuning in real soil |
 | ENV II | I2C | Temperature, humidity, pressure | None |
 | ToF | I2C | Distance in mm to water surface | Using guesses of 50 mm full and 200 mm empty until the tank is built |
 
@@ -54,7 +54,7 @@ Notes:
 - The servo swings only between about 20 and 100 degrees in the test, to avoid straining the end stops.
 - Turning direction: a higher angle turns the servo anticlockwise by default. `REVERSE_DIRECTION` in `garden_monitor` and `valve_tuning` flips it, so a higher angle turns the arm clockwise (the pipe moves down). The angles in the sketches stay the same.
 - Keep the arm clear of the Lego frame at both ends of the swing. A servo pushing against the frame draws far more current and can reset the Fire (see the build log, Stage 5).
-- TODO: Lego valve arm and tank mount, with a photo saved as `docs/images/valve.jpg`.
+- Built: a Lego arm on the servo pinches the soft tube from a 9 cm bottle. Closed at 25 degrees, open at 130 degrees, with the direction reversed in the sketch so the pipe moves downward. See the video in the Overview.
 
 ## Optional: pump instead of servo (not built)
 
@@ -76,7 +76,7 @@ The motor never connects to a Fire pin directly, the motor supply is separate fr
 
 | Date | What I tested | Result |
 |---|---|---|
-| 2026-11-12 | hello_fire sketch: screen and buttons | TODO |
+| 2026-11-12 | hello_fire sketch: screen and buttons | Works |
 | 2026-11-13 | env_ii_test: ENV II through the HUB on Port A | Works: 23.7 C, 57.6 %, 1007.5 hPa |
 | 2026-11-13 | earth_calibration: Earth unit on Port B | Dry 4095, water about 2020 |
 | 2026-11-13 | servo_test: servo sweep on Port C | Works |
@@ -93,4 +93,8 @@ The motor never connects to a Fire pin directly, the motor supply is separate fr
 
 ## Lessons
 
-TODO: add what went wrong and how it was fixed.
+- A servo pushing against the frame draws far more current and reset the Fire. Keep the arm clear at both ends of its swing.
+- A laptop USB port could not supply the servo's start-up current, and the screen blinked. The Fire's battery or a wall charger fixed it.
+- A very fast upload gave a corrupted partition table. Upload Speed 115200 and Flash Mode DIO fixed it.
+- An open Serial Monitor blocks uploads. Close it first.
+- Full details are in `setup-windows.md` and `build-log.md`.

@@ -2,6 +2,8 @@
 
 A self-watering garden monitor for community and urban farming, built on the M5Stack Fire (ESP32). It reads soil moisture, air conditions and water tank level, then opens a servo-driven valve only when the plants need it.
 
+**Demo video:** https://youtube.com/shorts/DR6Jm-IQAWk
+
 ## Problem
 
 Singapore imports around 90% of its food, and community garden plots and balcony farms are one way residents grow some of their own. Many of these plots fail for a simple reason: uneven watering. New gardeners over-water in the first week, then forget in the second. Water gets wasted, plants die, and people give up.
@@ -66,7 +68,22 @@ Details and fixes for the problems I hit are in `docs/setup-windows.md`.
 - [x] ToF water level warning
 - [x] All parts in one sketch (`garden_monitor`): soil, air, tank level, servo valve and screen
 - [x] Lego frame, tank and valve arm built (9 cm bottle, servo arm pinching the tube)
-- [ ] WiFi logging to a dashboard
+- [x] Prototype demo recorded (video link at the top)
+
+## How the demo stands in for soil
+
+I had no soil on hand, so the demo uses water and air as the two extremes:
+
+- Earth unit in water (reading about 2020): this stands for soil that is wet enough. The valve stays shut.
+- Earth unit in air (reading 4095): this stands for soil that is too dry. After five dry readings in a row the valve opens.
+
+The dry threshold is 3300, between the two. Real soil reads somewhere between water and air, so the threshold would need tuning in a real pot.
+
+## Future work
+
+- Tune the dry threshold in real soil, and run it on a real plant for several days
+- Measure the real full and empty distances for the tank (the current values are calculated from the bottle height)
+- WiFi logging to a dashboard
 
 ## Repository layout
 
