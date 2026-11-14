@@ -22,7 +22,7 @@ A low-cost node that takes the guesswork out of watering:
 
 | Part | Role |
 |---|---|
-| M5Stack Fire (ESP32) | Controller, screen, buttons, WiFi |
+| M5Stack Fire (ESP32) | Controller, screen, buttons |
 | Earth unit | Soil moisture |
 | ENV II unit | Air temperature, humidity, pressure |
 | ToF unit | Water tank level |
@@ -79,12 +79,6 @@ I had no soil on hand, so the demo uses water and air as the two extremes:
 
 The dry threshold is 3300, between the two. Real soil reads somewhere between water and air, so the threshold would need tuning in a real pot.
 
-## Future work
-
-- Tune the dry threshold in real soil, and run it on a real plant for several days
-- Measure the real full and empty distances for the tank (the current values are calculated from the bottle height)
-- WiFi logging to a dashboard
-
 ## Repository layout
 
 ```
@@ -109,6 +103,5 @@ docs/
 ## Notes
 
 - AC motors are out of scope. This project uses low-voltage DC only.
-- WiFi credentials, when added, go in a `secrets.h` file that is listed in `.gitignore`.
 
 Built by Jad.

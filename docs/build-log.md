@@ -77,4 +77,4 @@ Short dated notes on each stage: what I did, what happened, what I fixed. Workin
 
 - Video: https://youtube.com/shorts/DR6Jm-IQAWk
 - No soil on hand, so the demo uses water to stand for wet-enough soil (valve stays shut) and air to stand for dry soil (valve opens). The README explains this.
-- Project wrapped up here. Left as future work: tuning the threshold in real soil, measuring the real tank distances, and WiFi logging.
+- Project wrapped up here.
