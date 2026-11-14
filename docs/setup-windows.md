@@ -72,6 +72,18 @@ I do not know which of the three settings did the work, since I changed them tog
 
 Lessons: a new Arduino IDE window starts with no board selected (the top bar says "Select Board"), so pick M5Fire on COM5 first. After any upload, if the screen is black, unplug and replug the Fire before assuming the upload failed.
 
+### Problem 7: Upload fails with "Wrong boot mode detected (0x17)! The chip needs to be in download mode."
+
+Error text: `A fatal error occurred: Failed to connect to ESP32: Wrong boot mode detected (0x17)! The chip needs to be in download mode.` The output showed `Connecting......` with dots and then failed. It happened when I uploaded to a Fire that was already running the garden monitor sketch, with the servo and sensors plugged in.
+
+What did not work: unplugging the USB cable and plugging it back in.
+
+What worked: pressing the reset button on the Fire's left side while the output showed `Connecting......`. The upload then went through.
+
+Cause: I do not know for certain. The upload tool restarts the Fire into download mode with the USB lines, and that restart did not happen on its own. The reset button gave it the restart it needed.
+
+If it happens again: start the upload, and press the reset button on the left side when the output shows `Connecting`.
+
 ## Problems I hit earlier on a Mac
 
 - "no space left on device" during the board package install. The M5Stack package is several GB once unpacked, so the Mac's disk needs free space.
