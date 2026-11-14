@@ -22,8 +22,8 @@ const int SERVO_PIN = 17;
 const int BTN_A_PIN = 39;
 
 // Servo valve
-const int CLOSED_DEG = 0;    // found with valve_tuning: tube shut
-const int OPEN_DEG   = 60;   // found with valve_tuning: tube open, watering
+const int CLOSED_DEG = 10;   // tube shut (resting position)
+const int OPEN_DEG   = 85;   // tube open (watering)
 
 // true flips the servo's turning direction (a higher angle then turns the
 // arm clockwise instead of anticlockwise). All angles below stay the same.
@@ -37,9 +37,11 @@ const unsigned long READ_EVERY_MS = 1000;
 const unsigned long OPEN_MS       = 5000;
 const unsigned long COOLDOWN_MS   = 60000;
 
-// Tank level from the ToF distance
-const int TANK_FULL_MM  = 50;
-const int TANK_EMPTY_MM = 200;
+// Tank level from the ToF distance. The bottle is 9 cm tall, and the ToF sits
+// about 2 cm above its rim (the ToF cannot read closer than about 3 cm).
+// Full: water about 7 cm deep. Empty: about 1 cm of water left at the bottom.
+const int TANK_FULL_MM  = 40;
+const int TANK_EMPTY_MM = 100;
 const int LOW_PERCENT   = 20;
 
 M5GFX display;
