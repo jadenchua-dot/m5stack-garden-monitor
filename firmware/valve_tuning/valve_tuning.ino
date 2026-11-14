@@ -7,9 +7,14 @@
 #include <M5Unified.h>
 
 const int SERVO_PIN = 17;
+
+// true flips the servo's turning direction (a higher angle then turns the
+// arm clockwise instead of anticlockwise). All angles below stay the same.
+const bool REVERSE_DIRECTION = true;
 int currentDeg = 20;
 
 void setServoAngle(int deg) {
+  if (REVERSE_DIRECTION) deg = 180 - deg;
   int us = map(deg, 0, 180, 600, 2300);
   uint32_t duty = (uint32_t)us * 65536UL / 20000UL;
   ledcWrite(SERVO_PIN, duty);

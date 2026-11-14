@@ -25,6 +25,10 @@ const int BTN_A_PIN = 39;
 const int CLOSED_DEG = 20;
 const int OPEN_DEG   = 100;
 
+// true flips the servo's turning direction (a higher angle then turns the
+// arm clockwise instead of anticlockwise). All angles below stay the same.
+const bool REVERSE_DIRECTION = true;
+
 // Watering rules (short times for bench testing)
 const int DRY_THRESHOLD = 3300;
 const int CONFIRM_READS = 5;
@@ -56,6 +60,7 @@ int levelPct = -1;
 const char *note = "";
 
 void setServoAngle(int deg) {
+  if (REVERSE_DIRECTION) deg = 180 - deg;
   int us = map(deg, 0, 180, 600, 2300);
   uint32_t duty = (uint32_t)us * 65536UL / 20000UL;
   ledcWrite(SERVO_PIN, duty);

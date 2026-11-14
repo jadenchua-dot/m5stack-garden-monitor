@@ -52,6 +52,7 @@ Notes:
 - The servo sweep test (`firmware/servo_test`) moves the servo between two angles every 1.5 seconds.
 - If the Fire resets when the servo moves, use a separate 5 V supply for the servo and join its ground to the Fire's GND.
 - The servo swings only between about 20 and 100 degrees in the test, to avoid straining the end stops.
+- Turning direction: a higher angle turns the servo anticlockwise by default. `REVERSE_DIRECTION` in `garden_monitor` and `valve_tuning` flips it, so a higher angle turns the arm clockwise (the pipe moves down). The angles in the sketches stay the same.
 - Keep the arm clear of the Lego frame at both ends of the swing. A servo pushing against the frame draws far more current and can reset the Fire (see the build log, Stage 5).
 - TODO: Lego valve arm and tank mount, with a photo saved as `docs/images/valve.jpg`.
 
