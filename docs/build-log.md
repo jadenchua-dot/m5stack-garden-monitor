@@ -66,7 +66,7 @@ Short dated notes on each stage: what I did, what happened, what I fixed. Workin
 - The servo arm turns clockwise as the angle goes up (`REVERSE_DIRECTION`), so the pipe moves downward.
 - Using `valve_tuning` on the built arm: 0 degrees is closed, about 60 degrees is open (watering). Now set as `CLOSED_DEG` and `OPEN_DEG` in `garden_monitor`.
 
-- Changed to 25 degrees closed (not watering) and 110 degrees open (watering) after remounting the arm.
+- Changed to 25 degrees closed (not watering) and 130 degrees open (watering) after remounting the arm.
 - The bottle is 9 cm tall. The ToF sits about 2 cm above the rim because it cannot read closer than about 3 cm. Full is about 40 mm to the water and empty is about 100 mm. These are calculated from the bottle height, so I will check them with the real ToF readings.
 
 Next: check the tank distances with real readings, tune the soil threshold, then WiFi logging if there is time.
