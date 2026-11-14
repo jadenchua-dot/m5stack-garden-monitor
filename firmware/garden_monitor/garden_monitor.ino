@@ -22,8 +22,8 @@ const int SERVO_PIN = 17;
 const int BTN_A_PIN = 39;
 
 // Servo valve
-const int CLOSED_DEG = 20;
-const int OPEN_DEG   = 100;
+const int CLOSED_DEG = 0;    // found with valve_tuning: tube shut
+const int OPEN_DEG   = 60;   // found with valve_tuning: tube open, watering
 
 // true flips the servo's turning direction (a higher angle then turns the
 // arm clockwise instead of anticlockwise). All angles below stay the same.

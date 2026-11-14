@@ -61,4 +61,9 @@ Short dated notes on each stage: what I did, what happened, what I fixed. Workin
 - Problem: the screen blinks when the servo moves. The servo draws a burst of current and the 5 V supply sags. The Fire keeps running.
 - Fix: unplugged the PC cable and ran the Fire from its built-in battery. The blink went away, so the laptop USB port was not supplying enough current. The battery is small, so for a longer run the Fire needs a wall charger (1A or more) plugged in, or a separate 5 V supply for the servo.
 
-Next: build the Lego tank and valve arm, then WiFi logging.
+## 2026-11-14: Stage 8, valve angles
+
+- The servo arm turns clockwise as the angle goes up (`REVERSE_DIRECTION`), so the pipe moves downward.
+- Using `valve_tuning` on the built arm: 0 degrees is closed, about 60 degrees is open (watering). Now set as `CLOSED_DEG` and `OPEN_DEG` in `garden_monitor`.
+
+Next: tank full and empty distances for the ToF, real-soil threshold, then WiFi logging if there is time.
