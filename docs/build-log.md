@@ -69,4 +69,10 @@ Short dated notes on each stage: what I did, what happened, what I fixed. Workin
 - Changed to 25 degrees closed (not watering) and 130 degrees open (watering) after remounting the arm.
 - The bottle is 9 cm tall. The ToF sits about 2 cm above the rim because it cannot read closer than about 3 cm. Full is about 40 mm to the water and empty is about 100 mm. These are calculated from the bottle height, so I will check them with the real ToF readings.
 
-Next: check the tank distances with real readings, tune the soil threshold, then WiFi logging if there is time.
+## 2026-11-14: Stage 9, prototype built and working
+
+- Built the prototype: a 9 cm bottle as the tank, a soft tube pinched by a Lego arm on the servo, the ToF above the bottle, and the Earth unit in the soil.
+- Final valve angles: 25 degrees closed (not watering), 130 degrees open (watering). The Fire runs `garden_monitor` and the full cycle works.
+- Recorded a video of the prototype working.
+
+Next: check the tank distances with real readings, test the Earth unit in real soil and tune the threshold, then add a photo and the video link to the README.

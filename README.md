@@ -65,7 +65,7 @@ Details and fixes for the problems I hit are in `docs/setup-windows.md`.
 - [x] Watering logic with confirm reads and cooldown
 - [x] ToF water level warning
 - [x] All parts in one sketch (`garden_monitor`): soil, air, tank level, servo valve and screen
-- [ ] Lego frame, tank and valve arm built
+- [x] Lego frame, tank and valve arm built (9 cm bottle, servo arm pinching the tube)
 - [ ] WiFi logging to a dashboard
 
 ## Repository layout
