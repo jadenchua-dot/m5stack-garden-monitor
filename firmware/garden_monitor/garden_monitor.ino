@@ -22,7 +22,7 @@ const int SERVO_PIN = 17;
 const int BTN_A_PIN = 39;
 
 // Servo valve
-const int CLOSED_DEG = 10;   // tube shut (resting position)
+const int CLOSED_DEG = 25;   // tube shut (resting position, not watering)
 const int OPEN_DEG   = 85;   // tube open (watering)
 
 // true flips the servo's turning direction (a higher angle then turns the
