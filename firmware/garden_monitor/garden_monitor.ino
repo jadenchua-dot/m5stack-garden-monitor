@@ -70,7 +70,7 @@ void moveServoTo(int target) {
   while (currentDeg != target) {
     currentDeg += (target > currentDeg) ? 1 : -1;
     setServoAngle(currentDeg);
-    delay(12);
+    delay(25);
   }
 }
 
