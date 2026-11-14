@@ -275,6 +275,9 @@ void setup() {
   tofOk = lox.begin(0x29, false, &Wire);
   Serial.println(tofOk ? "ToF ready" : "ToF not found, water level unknown");
 
+  // Short settle time before WiFi init — gives the power rail time to stabilise.
+  delay(1000);
+
   // Join WiFi, with a timeout so the garden still runs if WiFi fails.
   WiFi.mode(WIFI_STA);
   WiFi.begin(WIFI_SSID, WIFI_PASS);
