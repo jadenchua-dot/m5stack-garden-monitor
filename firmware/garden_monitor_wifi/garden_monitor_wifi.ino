@@ -68,7 +68,7 @@ int levelPct = -1;
 const char *note = "";
 
 // ---- the web page the Fire serves ----
-const char PAGE[] PROGMEM = R"HTML(
+const char PAGE[] = R"HTML(
 <!doctype html>
 <html lang="en">
 <head>
@@ -163,7 +163,7 @@ String stateName() {
   return "Waiting";
 }
 
-void handleRoot() { server.send_P(200, "text/html", PAGE); }
+void handleRoot() { server.send(200, "text/html", PAGE); }
 
 void handleData() {
   String j = "{";
