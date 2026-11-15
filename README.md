@@ -90,6 +90,9 @@ The page is served by the Fire itself; its HTML is embedded in the sketch, so
 there is nothing else to host. If WiFi does not connect in 15 seconds, the
 garden keeps running without the dashboard.
 
+**Dashboard preview:** https://claude.ai/artifact/Th91dtbgdaiL6VMxay2xUD
+(Simulated demo — the real page is served by the Fire over your local WiFi.)
+
 ## How the demo stands in for soil
 
 I had no soil on hand, so the demo uses water and air as the two extremes:
