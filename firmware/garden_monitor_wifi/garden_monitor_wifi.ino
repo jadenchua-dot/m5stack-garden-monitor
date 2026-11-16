@@ -7,6 +7,7 @@
 // Same watering rules as garden_monitor. On top, the Fire joins your WiFi and
 // runs a tiny web server. Open the Fire's IP address (shown on its screen) in
 // a browser on the same network to see a live dashboard of the readings.
+// If WiFi is down, the garden keeps running and WiFi is retried every 30 s.
 //
 // The screen uses M5GFX only, and the I2C units use raw Wire, so the two do
 // not clash. Needs the "Adafruit VL53L0X" library.
@@ -53,6 +54,11 @@ Adafruit_VL53L0X lox = Adafruit_VL53L0X();
 WebServer server(80);
 bool tofOk = false;
 String ipText = "WiFi: ...";
+bool serverStarted = false;
+unsigned long lastWifiTry = 0;
+const unsigned long WIFI_RETRY_MS = 30000;   // retry WiFi this often while offline
+int tofMisses = 0;
+const int TOF_MAX_MISSES = 10;   // after this many failed reads, level = unknown
 
 enum State { WAITING, WATERING, COOLDOWN };
 State state = WAITING;
@@ -178,6 +184,41 @@ void handleData() {
   server.send(200, "application/json", j);
 }
 
+void startServer() {
+  server.on("/", handleRoot);
+  server.on("/data", handleData);
+  server.begin();
+  serverStarted = true;
+}
+
+// Keeps the dashboard alive: starts the web server once WiFi is up, updates the
+// address on screen, and retries every 30 s while WiFi is down.
+void checkWifi() {
+  static unsigned long lastCheck = 0;
+  if (millis() - lastCheck < 1000) return;   // once a second is plenty
+  lastCheck = millis();
+  if (WiFi.status() == WL_CONNECTED) {
+    if (!serverStarted) startServer();
+    String t = "http://" + WiFi.localIP().toString();
+    if (ipText != t) {
+      ipText = t;
+      Serial.println("WiFi connected: " + ipText);
+    }
+  } else if (millis() - lastWifiTry >= WIFI_RETRY_MS) {
+    lastWifiTry = millis();
+    ipText = "WiFi: retrying...";
+    WiFi.disconnect();
+    WiFi.begin(WIFI_SSID, WIFI_PASS);
+  }
+}
+
+// Seconds left in the current state, never below 0 (avoids an unsigned
+// underflow that showed a huge number for the last second of a countdown).
+unsigned long secondsLeft(unsigned long total) {
+  unsigned long elapsed = millis() - stateStart;
+  return elapsed >= total ? 0 : (total - elapsed + 999) / 1000;
+}
+
 void setServoAngle(int deg) {
   if (REVERSE_DIRECTION) deg = 180 - deg;
   int us = map(deg, 0, 180, 600, 2300);
@@ -255,9 +296,9 @@ void draw() {
   else display.print("Water: no reading\n");
   if (state == WAITING) display.printf("Waiting, dry %d/%d\n", dryCount, CONFIRM_READS);
   else if (state == WATERING)
-    display.printf("WATERING %lu s\n", (OPEN_MS - (millis() - stateStart)) / 1000);
+    display.printf("WATERING %lu s\n", secondsLeft(OPEN_MS));
   else
-    display.printf("Cooldown %lu s\n", (COOLDOWN_MS - (millis() - stateStart)) / 1000);
+    display.printf("Cooldown %lu s\n", secondsLeft(COOLDOWN_MS));
   display.printf("%s\n", note);
   display.setTextColor(TFT_CYAN, bg);
   display.print(ipText);
@@ -287,20 +328,19 @@ void setup() {
     delay(300);
     Serial.print(".");
   }
+  Serial.println();
   if (WiFi.status() == WL_CONNECTED) {
-    ipText = "http://" + WiFi.localIP().toString();
-    Serial.println("\n" + ipText);
-    server.on("/", handleRoot);
-    server.on("/data", handleData);
-    server.begin();
+    checkWifi();   // starts the web server and shows the address
   } else {
     ipText = "WiFi: not connected";
-    Serial.println("\nWiFi failed, running without the dashboard");
+    lastWifiTry = millis();
+    Serial.println("WiFi failed, garden keeps running; retrying every 30 s");
   }
 }
 
 void loop() {
-  server.handleClient();
+  checkWifi();
+  if (serverStarted) server.handleClient();
 
   unsigned long now = millis();
   bool btnA = (digitalRead(BTN_A_PIN) == LOW);
@@ -312,7 +352,13 @@ void loop() {
   if (readSHT30(t, h)) { tempC = t; hum = h; } else { hum = -1; }
   if (tofOk) {
     int mm = readDistanceMm();
-    if (mm >= 0) distMm = mm;
+    if (mm >= 0) {
+      distMm = mm;
+      tofMisses = 0;
+    } else if (++tofMisses >= TOF_MAX_MISSES) {
+      distMm = -1;      // too many failed reads: don't keep showing an old level
+      levelPct = -1;
+    }
     if (distMm >= 0) {
       levelPct = map(constrain(distMm, TANK_FULL_MM, TANK_EMPTY_MM),
                      TANK_EMPTY_MM, TANK_FULL_MM, 0, 100);

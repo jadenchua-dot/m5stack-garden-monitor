@@ -47,6 +47,8 @@ const int LOW_PERCENT   = 20;
 M5GFX display;
 Adafruit_VL53L0X lox = Adafruit_VL53L0X();
 bool tofOk = false;
+int tofMisses = 0;
+const int TOF_MAX_MISSES = 10;   // after this many failed reads, level = unknown
 
 enum State { WAITING, WATERING, COOLDOWN };
 State state = WAITING;
@@ -60,6 +62,13 @@ float tempC = 0, hum = -1;
 int distMm = -1;
 int levelPct = -1;
 const char *note = "";
+
+// Seconds left in the current state, never below 0 (avoids an unsigned
+// underflow that showed a huge number for the last second of a countdown).
+unsigned long secondsLeft(unsigned long total) {
+  unsigned long elapsed = millis() - stateStart;
+  return elapsed >= total ? 0 : (total - elapsed + 999) / 1000;
+}
 
 void setServoAngle(int deg) {
   if (REVERSE_DIRECTION) deg = 180 - deg;
@@ -138,9 +147,9 @@ void draw() {
   else display.print("Water: no reading\n");
   if (state == WAITING) display.printf("Waiting, dry %d/%d\n", dryCount, CONFIRM_READS);
   else if (state == WATERING)
-    display.printf("WATERING %lu s\n", (OPEN_MS - (millis() - stateStart)) / 1000);
+    display.printf("WATERING %lu s\n", secondsLeft(OPEN_MS));
   else
-    display.printf("Cooldown %lu s\n", (COOLDOWN_MS - (millis() - stateStart)) / 1000);
+    display.printf("Cooldown %lu s\n", secondsLeft(COOLDOWN_MS));
   display.print(note);
 }
 
@@ -169,7 +178,13 @@ void loop() {
   if (readSHT30(t, h)) { tempC = t; hum = h; } else { hum = -1; }
   if (tofOk) {
     int mm = readDistanceMm();
-    if (mm >= 0) distMm = mm;
+    if (mm >= 0) {
+      distMm = mm;
+      tofMisses = 0;
+    } else if (++tofMisses >= TOF_MAX_MISSES) {
+      distMm = -1;      // too many failed reads: don't keep showing an old level
+      levelPct = -1;
+    }
     if (distMm >= 0) {
       levelPct = map(constrain(distMm, TANK_FULL_MM, TANK_EMPTY_MM),
                      TANK_EMPTY_MM, TANK_FULL_MM, 0, 100);

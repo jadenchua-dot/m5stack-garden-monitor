@@ -31,11 +31,13 @@ The scan (`firmware/i2c_scan`) also lists 0x10, 0x68 and 0x75. These sit on the 
 |---|---|---|---|
 | Earth | Analog voltage on G36 | Raw 0 to 4095 | Dry in air: 4095. In water: about 2020 (hovers 2010 to 2030). No soil on hand, so water stands for wet-enough soil and air stands for dry soil. Dry threshold: raw 3300, between the two. It would need tuning in real soil |
 | ENV II | I2C | Temperature, humidity, pressure | None |
-| ToF | I2C | Distance in mm to water surface | Using guesses of 50 mm full and 200 mm empty until the tank is built |
+| ToF | I2C | Distance in mm to water surface | 9 cm bottle with the ToF about 2 cm above the rim: full at 40 mm, empty at 100 mm (set in `garden_monitor`). The earlier `water_level_warning` sketch still has the first guesses, 50 mm and 200 mm |
 
 ## Data flow
 
 ![Data flow diagram](images/data-flow.png)
+
+Not shown in the diagram: with `garden_monitor_wifi`, the Fire also joins WiFi and serves a live dashboard of the same readings to a phone or laptop on the same network.
 
 ## Servo valve
 
@@ -80,10 +82,13 @@ The motor never connects to a Fire pin directly, the motor supply is separate fr
 | 2026-11-13 | env_ii_test: ENV II through the HUB on Port A | Works: 23.7 C, 57.6 %, 1007.5 hPa |
 | 2026-11-13 | earth_calibration: Earth unit on Port B | Dry 4095, water about 2020 |
 | 2026-11-13 | servo_test: servo sweep on Port C | Works |
-| 2026-11-13 | tof_test: ToF through the HUB on Port A | Works: distance changes with my hand, out of range shows when far |
-| 2026-11-13 | garden_monitor: Earth, ENV II, ToF, servo and screen together | Works. The screen blinked when the servo moved (supply dip), see the build log, Stage 7 |
-| 2026-11-13 | water_level_warning: ToF distance to tank level, red screen when low | Works |
 | 2026-11-13 | watering_logic: Earth unit on Port B, servo on Port C | Works: opens in air, stays shut in water, cooldown runs |
+| 2026-11-13 | tof_test: ToF through the HUB on Port A | Works: distance changes with my hand, out of range shows when far |
+| 2026-11-13 | water_level_warning: ToF distance to tank level, red screen when low | Works |
+| 2026-11-13 | garden_monitor: Earth, ENV II, ToF, servo and screen together | Works. The screen blinked when the servo moved (supply dip), see the build log, Stage 7 |
+| 2026-11-14 | valve_tuning: step the servo on the built arm | Closed 25 degrees, open 130 degrees |
+| 2026-11-14 | garden_monitor on the built prototype (bottle, tube, Lego arm) | Works: full cycle, see the demo video |
+| 2026-11-14 | garden_monitor_wifi: live dashboard in a browser | Works after two fixes: a 1 s delay before WiFi starts, and serving the page with `send()` (build log, Stage 10) |
 
 ## Safety
 

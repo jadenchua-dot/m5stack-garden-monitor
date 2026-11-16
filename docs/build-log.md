@@ -20,7 +20,7 @@ Short dated notes on each stage: what I did, what happened, what I fixed. Workin
 - Result in Serial Monitor at 115200 baud: 23.7 C, 57.6 % humidity, 1007.5 hPa, steady from reading to reading. No problems.
 - The readings print to Serial Monitor only. Showing them on the Fire's screen is a later step.
 
-## 2026-11-13: Stage 3, Earth unit (in progress)
+## 2026-11-13: Stage 3, Earth unit
 
 - Sketch: `firmware/earth_calibration`. The Earth unit is on Port B and the raw value shows on the Fire's screen.
 - Dry in air: 4095, the maximum the analog input can read.
@@ -28,9 +28,7 @@ Short dated notes on each stage: what I did, what happened, what I fixed. Workin
 - Problem: the first upload failed with "port is busy", and the Fire then boot-looped. Closing the Serial Monitor tab and replugging fixed it. Details in `setup-windows.md`, Problem 5.
 - Prongs in a cup of water, up to the line on the board: the value hovers around 2010 to 2030, so about 2020.
 - Calibration so far: dry 4095, water about 2020. The wet tissue reading (2270) sits between the two, as expected.
-- Still to do: a reading in damp soil, to set the watering threshold.
-
-- No soil on hand, so I set a provisional dry threshold at raw 3300 (about 38% of the dry-to-water range). The pump waters when the reading is above it. It is a guess, based on soil holding less water than a cup, and I will tune it in real soil. The pump cooldown limits the damage if it is off.
+- No soil on hand, so I set a provisional dry threshold at raw 3300 (about 38% of the dry-to-water range). The valve opens when the reading is above it. It is a guess, based on soil holding less water than a cup, and would need tuning in real soil. The watering cooldown limits the damage if it is off.
 
 ## 2026-11-13: Stage 4, servo valve
 
@@ -77,7 +75,7 @@ Short dated notes on each stage: what I did, what happened, what I fixed. Workin
 
 - Video: https://youtube.com/shorts/DR6Jm-IQAWk
 - No soil on hand, so the demo uses water to stand for wet-enough soil (valve stays shut) and air to stand for dry soil (valve opens). The README explains this.
-- Project wrapped up here.
+- The core prototype is done here. Stage 10 adds the WiFi dashboard on top.
 
 ## 2026-11-14: Stage 10, WiFi dashboard
 
@@ -85,3 +83,12 @@ Short dated notes on each stage: what I did, what happened, what I fixed. Workin
 - Open "/" and the Fire serves an HTML page. The page fetches "/data" (a small JSON of soil, air, water level, valve state) every 2 seconds and updates itself. The HTML is embedded in the sketch, so nothing else needs hosting.
 - The Fire's IP shows on its screen in cyan once connected. WiFi has a 15 second timeout, so the garden still runs if WiFi fails.
 - Credentials (WIFI_SSID, WIFI_PASS) are placeholders in the repo copy. Fill them in on the local Arduino copy only, and keep the real password off a public repo.
+- Problem: the Fire sometimes reset right at boot when WiFi started, with the servo and sensors plugged in. Likely a brownout: starting the WiFi radio draws a burst of current right after the servo and sensors start, and the supply dips. Fix: a 1 second settle delay after the servo and sensors start, before `WiFi.begin()`. See `setup-windows.md`, Problem 8.
+- Problem: the Fire crashed when a browser opened the page. The page was stored with `PROGMEM` and sent with `server.send_P()`. Fix: store it as a plain `const char` string and send it with `server.send()`. On the ESP32, constant strings already live in flash, so `PROGMEM` is not needed. See `setup-windows.md`, Problem 9.
+
+## 2026-11-16: Review and tidy-up
+
+- Countdown on the screen: the last second of watering or cooldown could show a huge number (an unsigned subtraction went below zero). It now stops at 0.
+- WiFi: if it fails at boot, the Fire now retries every 30 seconds and starts the dashboard once it connects, instead of staying offline until a restart.
+- Tank level: after 10 failed ToF reads in a row the level shows as unknown instead of keeping an old value.
+- Docs: library list in the README, final tank distances in `wiring.md`, test log brought up to date, RGB status lights marked as a stretch goal, and an MIT license added.

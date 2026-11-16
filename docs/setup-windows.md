@@ -84,6 +84,22 @@ Cause: I do not know for certain. The upload tool restarts the Fire into downloa
 
 If it happens again: start the upload, and press the reset button on the left side when the output shows `Connecting`.
 
+### Problem 8: The Fire resets at boot when WiFi starts
+
+With the servo and sensors plugged in, the WiFi sketch sometimes restarted right after power-on.
+
+Likely cause: a brownout. Turning on the WiFi radio draws a burst of current, right after the servo and sensors have just started, so the 5 V supply dips.
+
+Fix: a 1 second delay after the servo and sensors start, before `WiFi.begin()`, so the power rail can settle. If it still happens, power the Fire from a wall charger (1 A or more) instead of a laptop USB port.
+
+### Problem 9: The Fire crashes when the dashboard page is opened
+
+The sketch ran, but opening the Fire's address in a browser crashed and restarted it.
+
+Likely cause: the page was stored with `PROGMEM` and sent with `server.send_P()`. On the ESP32 `PROGMEM` is not needed, and switching away from that combination stopped the crash.
+
+Fix: store the page as a plain `const char PAGE[]` and send it with `server.send(200, "text/html", PAGE)`.
+
 ## Problems I hit earlier on a Mac
 
 - "no space left on device" during the board package install. The M5Stack package is several GB once unpacked, so the Mac's disk needs free space.

@@ -16,7 +16,7 @@ A low-cost node that takes the guesswork out of watering:
 2. An environment sensor reads air temperature, humidity and pressure, so the system can skip a cycle when the air is already humid.
 3. A distance sensor above the water tank measures the water level and warns before the tank runs empty.
 4. A servo releases a soft tube on a gravity-fed tank for a short, fixed time when the soil stays dry across several readings, then pinches it shut and waits through a cooldown before it can open again.
-5. The Fire's screen shows live readings, and status lights show plot health at a glance.
+5. The Fire's screen shows live readings and turns red when the tank is low, and a WiFi dashboard shows the same readings on a phone or laptop. (RGB status lights per plot are a stretch goal, not built yet.)
 
 ## Hardware
 
@@ -27,7 +27,7 @@ A low-cost node that takes the guesswork out of watering:
 | ENV II unit | Air temperature, humidity, pressure |
 | ToF unit | Water tank level |
 | Analog servo | Opens and closes the water valve |
-| RGB units | Status lights |
+| RGB units | Status lights (stretch goal) |
 | RFID unit | Identify a plot by tag (stretch goal) |
 | Light unit | Sunlight logging (stretch goal) |
 | HUB / Pb.HUB units | Share ports between units |
@@ -50,7 +50,10 @@ The servo sweep test works on Port C. If the Fire ever resets when the servo mov
 1. Install Arduino IDE 2.x from arduino.cc.
 2. Install the CP210x USB driver from Silicon Labs. The Fire shows up as "CP2104 USB to UART Bridge" in Device Manager.
 3. In Arduino IDE open Preferences and add this URL under Additional boards manager URLs: `https://static-cdn.m5stack.com/resource/arduino/package_m5stack_index.json`
-4. Install the M5Stack board package from Boards Manager, and the M5Unified library from Library Manager.
+4. Install the M5Stack board package (3.x) from Boards Manager, and these libraries from Library Manager:
+   - **M5Unified** (installs M5GFX with it), for the screen and buttons
+   - **Adafruit VL53L0X**, for the ToF water level (`garden_monitor`, `garden_monitor_wifi`, `tof_test`, `water_level_warning`)
+   - **Adafruit BMP280**, only for the `env_ii_test` sketch
 5. Select the M5Fire board and the Fire's COM port, then press Upload (the right arrow, not the Debug button).
 
 Details and fixes for the problems I hit are in `docs/setup-windows.md`.
@@ -88,10 +91,11 @@ readings on a phone or laptop on the same network.
 
 The page is served by the Fire itself; its HTML is embedded in the sketch, so
 there is nothing else to host. If WiFi does not connect in 15 seconds, the
-garden keeps running without the dashboard.
+garden keeps running without the dashboard and the Fire retries WiFi every 30
+seconds, so the dashboard comes back on its own once the network is available.
 
 **Dashboard preview:** https://claude.ai/artifact/Th91dtbgdaiL6VMxay2xUD
-(Simulated demo — the real page is served by the Fire over your local WiFi.)
+(Simulated demo with made-up readings. The real page is served by the Fire over your local WiFi.)
 
 ## How the demo stands in for soil
 
@@ -124,8 +128,15 @@ docs/
   images/              diagrams
 ```
 
+The sketches are kept as milestones, one per build stage. The earlier ones
+(`watering_logic`, `water_level_warning`) still have the first guesses for the
+valve angles and tank distances. The final, tuned values are in
+`garden_monitor` and `garden_monitor_wifi`: valve 25° closed and 130° open, tank
+full at 40 mm and empty at 100 mm.
+
 ## Notes
 
 - AC motors are out of scope. This project uses low-voltage DC only.
+- Licensed under the MIT License, see `LICENSE`.
 
 Built by Jad.
