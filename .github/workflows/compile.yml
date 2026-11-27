@@ -26,7 +26,7 @@ jobs:
           libraries: |
             - name: M5Unified
             - name: M5GFX
-            - name: Adafruit VL53L0X
+            - name: Adafruit_VL53L0X
             - name: Adafruit BMP280 Library
           sketch-paths: |
             - firmware
