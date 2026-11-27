@@ -1,5 +1,7 @@
 # M5Stack Garden Monitor
 
+[![Compile sketches](https://github.com/jadenchua-dot/m5stack-garden-monitor/actions/workflows/compile.yml/badge.svg)](https://github.com/jadenchua-dot/m5stack-garden-monitor/actions/workflows/compile.yml)
+
 A self-watering garden monitor for community and urban farming, built on the M5Stack Fire (ESP32). It reads soil moisture, air conditions and water tank level, then opens a servo-driven valve only when the plants need it.
 
 **Demo video:** https://youtube.com/shorts/DR6Jm-IQAWk
