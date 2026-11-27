@@ -96,8 +96,9 @@ there is nothing else to host. If WiFi does not connect in 15 seconds, the
 garden keeps running without the dashboard and the Fire retries WiFi every 30
 seconds, so the dashboard comes back on its own once the network is available.
 
-**Dashboard preview:** https://claude.ai/artifact/Th91dtbgdaiL6VMxay2xUD
-(Simulated demo with made-up readings. The real page is served by the Fire over your local WiFi.)
+**Try the dashboard:** https://jaden-portfolio-psi.vercel.app/demos/garden/
+(The exact page the Fire serves, running on a simulated garden in your browser: dry
+the soil, empty the tank or make it a humid day, and watch it decide when to water.)
 
 ## How the demo stands in for soil
 
